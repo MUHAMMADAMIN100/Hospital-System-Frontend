@@ -18,7 +18,7 @@ import {
   Edit as EditIcon,
 } from "@mui/icons-material";
 import { getPatientById, updatePatient } from "../../api/patients";
-
+import '../../App.css'
 const territories = ["Firdavsi", "Somoni", "Shohmansur", "Sino"];
 const diseases = [
   "Flu",
@@ -197,7 +197,8 @@ export default function EditPatientPage() {
                   onChange={handleChange}
                   fullWidth
                   required
-                />
+                  sx={{ "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "rgba(255, 255, 255, 0.3)" }, "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" } }, "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 0.7)" } }}
+                   />
                 <TextField
                   label="Имя пациента"
                   name="name"
@@ -205,6 +206,7 @@ export default function EditPatientPage() {
                   onChange={handleChange}
                   fullWidth
                   required
+                   sx={{ "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "rgba(255, 255, 255, 0.3)" }, "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" } }, "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 0.7)" } }}
                 />
                 <TextField
                   label="Дата регистрации"
@@ -214,6 +216,7 @@ export default function EditPatientPage() {
                   onChange={handleChange}
                   fullWidth
                   InputLabelProps={{ shrink: true }}
+                   sx={{ "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "rgba(255, 255, 255, 0.3)" }, "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" } }, "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 0.7)" } }}
                 />
                 <TextField
                   select
@@ -222,6 +225,7 @@ export default function EditPatientPage() {
                   value={form.territoryName}
                   onChange={handleChange}
                   fullWidth
+                   sx={{ "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "rgba(255, 255, 255, 0.3)" }, "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" } }, "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 0.7)" } }}
                 >
                   {territories.map((t) => (
                     <MenuItem key={t} value={t}>
@@ -236,6 +240,7 @@ export default function EditPatientPage() {
                   value={form.disease}
                   onChange={handleChange}
                   fullWidth
+                  sx={{ "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "rgba(255, 255, 255, 0.3)" }, "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" } }, "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 0.7)" } }} 
                 >
                   {diseases.map((d) => (
                     <MenuItem key={d} value={d}>
@@ -253,6 +258,7 @@ export default function EditPatientPage() {
                   onChange={handleChange}
                   fullWidth
                   InputLabelProps={{ shrink: true }}
+                   sx={{ "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "rgba(255, 255, 255, 0.3)" }, "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" } }, "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 0.7)" } }}
                 />
 
                 <Box sx={{ display: "flex", gap: 2, mt: 2 }}>

@@ -90,26 +90,6 @@ export default function HospitalForm() {
           elevation={0}
           sx={{ bgcolor: "background.paper", borderBottom: "1px solid rgba(255,255,255,0.1)" }}
         >
-          <Toolbar>
-            <LocalHospitalIcon sx={{ mr: 2, color: "primary.main" }} />
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 600 }}>
-              Медицинская Аналитика
-            </Typography>
-            <Button
-              color="inherit"
-              startIcon={<LocalHospitalIcon />}
-              sx={{ mr: 2 }}
-              onClick={() => navigate("/hospitals")}
-            >
-              Hospitals
-            </Button>
-            <Button color="inherit" startIcon={<PeopleIcon />} sx={{ mr: 2 }}>
-              Patients
-            </Button>
-            <Button color="inherit" startIcon={<AssessmentIcon />} onClick={() => navigate("/")}>
-              Reports
-            </Button>
-          </Toolbar>
         </AppBar>
 
         <Container maxWidth="md" sx={{ py: 4 }}>

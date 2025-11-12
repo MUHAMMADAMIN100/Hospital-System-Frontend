@@ -14,6 +14,7 @@ import {
 } from "@mui/material"
 import { Save as SaveIcon, ArrowBack as ArrowBackIcon, PersonAdd as PersonAddIcon } from "@mui/icons-material"
 import { createPatient } from "../../api/patients"
+import '../../App.css'
 
 const territories = ["Firdavsi", "Somoni", "Shohmansur", "Sino"]
 const diseases = ["Flu", "Cold", "Fever", "Hepatitis", "ARVI", "Tuberculosis", "Diabetes", "Others"]
@@ -99,10 +100,12 @@ export default function NewPatientPage() {
                   InputLabelProps={{ shrink: true }}
                   sx={{ "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "rgba(255, 255, 255, 0.3)" }, "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" } }, "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 0.7)" } }}
                 />
-                <TextField select label="Территория" value={form.territoryName} onChange={(e) => setForm({ ...form, territoryName: e.target.value })} disabled={loading} fullWidth>
+                <TextField select label="Территория" value={form.territoryName} onChange={(e) => setForm({ ...form, territoryName: e.target.value })} disabled={loading} fullWidth
+                  sx={{ "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "rgba(255, 255, 255, 0.3)" }, "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" } }, "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 0.7)" } }}>
                   {territories.map(t => <MenuItem key={t} value={t}>{t}</MenuItem>)}
                 </TextField>
-                <TextField select label="Болезнь" value={form.disease} onChange={(e) => setForm({ ...form, disease: e.target.value })} disabled={loading} fullWidth>
+                <TextField select label="Болезнь" value={form.disease} onChange={(e) => setForm({ ...form, disease: e.target.value })} disabled={loading} fullWidth 
+                  sx={{ "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "rgba(255, 255, 255, 0.3)" }, "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" } }, "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 0.7)" } }}>
                   {diseases.map(d => <MenuItem key={d} value={d}>{d}</MenuItem>)}
                 </TextField>
 
