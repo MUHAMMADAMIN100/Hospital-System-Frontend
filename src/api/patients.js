@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/PatientControllers";
+const API_URL = "https://hospital-system-backend-rqkm.onrender.com/api/PatientControllers";
 
 // Получить всех пациентов с фильтрацией и пагинацией
 export const getPatients = async (pageNumber = 1, pageSize = 10) => {

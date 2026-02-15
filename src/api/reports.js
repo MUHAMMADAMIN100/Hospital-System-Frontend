@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REPORT_API_URL = "http://localhost:5000/api/Report";
+const REPORT_API_URL = "https://hospital-system-backend-rqkm.onrender.com/api/Report";
 
 // Получить сводную статистику по всем территориям
 export const getReportAllTerritories = async (dateFrom, dateTo) => {

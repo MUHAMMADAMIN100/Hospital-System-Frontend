@@ -1,6 +1,6 @@
 // src/api/hospitals.js
 import axios from "axios";
-const API_URL = "http://localhost:5000/api/Hospital";
+const API_URL = "https://hospital-system-backend-rqkm.onrender.com/api/Hospital";
 
 // Получение списка больниц
 export const getHospitals = async (params) => {
