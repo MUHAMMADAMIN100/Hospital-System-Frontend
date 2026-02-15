@@ -16,8 +16,6 @@ import {
   ThemeProvider,
   createTheme,
   CssBaseline,
-  AppBar,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -25,6 +23,9 @@ import {
   DialogActions,
   Alert,
   Pagination,
+  IconButton,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import AddIcon from "@mui/icons-material/Add";
@@ -40,18 +41,16 @@ const darkTheme = createTheme({
     primary: { main: "#3b82f6" },
     secondary: { main: "#10b981" },
     background: { default: "#0a0a0a", paper: "#1a1a1a" },
-    text: { primary: "#ffffff", secondary: "#a0a0a0" },
   },
   typography: { fontFamily: "Geist, sans-serif" },
-  components: {
-    MuiPaper: { styleOverrides: { root: { backgroundImage: "none", borderRadius: 12 } } },
-    MuiButton: { styleOverrides: { root: { textTransform: "none", borderRadius: 8 } } },
-  },
 });
 
 export default function HospitalsList() {
   const navigate = useNavigate();
-  const [hospitals, setHospitals] = useState([]); // теперь просто массив
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [hospitals, setHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
@@ -61,84 +60,100 @@ export default function HospitalsList() {
   const pageSize = 10;
   const totalPages = Math.ceil(hospitals.length / pageSize);
 
-  const fetchHospitals = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const res = await getHospitals(); // без параметров, т.к. пагинация локальная
-      setHospitals(res.data || res); // если API возвращает {data}, берем data
-    } catch (err) {
-      console.error("Ошибка при загрузке больниц:", err);
-      setError("Не удалось загрузить список больниц. Проверьте подключение к серверу.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchHospitals = async () => {
+      try {
+        setLoading(true);
+        const res = await getHospitals();
+        setHospitals(res.data || res);
+      } catch (error) {
+        setError("Не удалось загрузить список больниц.");
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchHospitals();
   }, []);
 
-  const handleDeleteClick = (hospital) => {
-    setHospitalToDelete(hospital);
-    setDeleteDialogOpen(true);
-  };
-
   const handleDeleteConfirm = async () => {
     if (!hospitalToDelete) return;
+
     try {
       await deleteHospital(hospitalToDelete.registrationNumber);
-      setHospitals((prev) => prev.filter((h) => h.registrationNumber !== hospitalToDelete.registrationNumber));
+      const updated = hospitals.filter(
+        (h) =>
+          h.registrationNumber !== hospitalToDelete.registrationNumber
+      );
+      setHospitals(updated);
+
+      if ((page - 1) * pageSize >= updated.length) {
+        setPage((p) => Math.max(p - 1, 1));
+      }
+
       setDeleteDialogOpen(false);
       setHospitalToDelete(null);
-
-      // если после удаления страница пустая — возвращаемся на предыдущую
-      if ((page - 1) * pageSize >= hospitals.length - 1) {
-        setPage((prev) => Math.max(prev - 1, 1));
-      }
-    } catch (err) {
-      console.error(err);
+    } catch {
       setError("Ошибка при удалении больницы");
     }
   };
 
-  // Данные для текущей страницы
-  const paginatedData = hospitals.slice((page - 1) * pageSize, page * pageSize);
+  const paginatedData = hospitals.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  );
 
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
-        <AppBar position="static" elevation={0} sx={{ bgcolor: "background.paper", borderBottom: "1px solid rgba(255,255,255,0.1)" }} />
-
-        <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Container
+          maxWidth="xl"
+          sx={{
+            py: { xs: 2, sm: 4 },
+            px: { xs: 2, sm: 3 },
+          }}
+        >
           {/* Header */}
-          <Box sx={{ mb: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Box
+            sx={{
+              mb: 4,
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: "space-between",
+              alignItems: { xs: "flex-start", sm: "center" },
+              gap: 2,
+            }}
+          >
             <Box>
               <Typography
-                variant="h3"
                 sx={{
                   fontWeight: 700,
                   mb: 1,
-                  background: "linear-gradient(135deg, #3b82f6 0%, #10b981 100%)",
+                  fontSize: { xs: "1.8rem", sm: "2.5rem", md: "3rem" },
+                  background:
+                    "linear-gradient(135deg, #3b82f6 0%, #10b981 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
               >
                 Больницы
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography
+                color="text.secondary"
+                sx={{ fontSize: { xs: "0.85rem", sm: "1rem" } }}
+              >
                 Управление медицинскими учреждениями
               </Typography>
             </Box>
+
             <Button
+              fullWidth={isMobile}
               variant="contained"
-              size="large"
               startIcon={<AddIcon />}
               onClick={() => navigate("/hospitals/new")}
               sx={{
-                background: "linear-gradient(135deg, #3b82f6 0%, #10b981 100%)",
-                "&:hover": { background: "linear-gradient(135deg, #2563eb 0%, #059669 100%)" },
+                background:
+                  "linear-gradient(135deg, #3b82f6 0%, #10b981 100%)",
               }}
             >
               Создать больницу
@@ -146,76 +161,127 @@ export default function HospitalsList() {
           </Box>
 
           {error && (
-            <Alert severity="error" sx={{ mb: 4, borderRadius: 2 }} onClose={() => setError(null)}>
+            <Alert severity="error" sx={{ mb: 4 }}>
               {error}
             </Alert>
           )}
 
           {loading ? (
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: 400 }}>
-              <CircularProgress size={60} />
+            <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
+              <CircularProgress />
             </Box>
           ) : hospitals.length === 0 ? (
-            <Paper sx={{ p: 6, textAlign: "center", bgcolor: "background.paper" }}>
-              <LocalHospitalIcon sx={{ fontSize: 80, color: "text.secondary", opacity: 0.3, mb: 2 }} />
-              <Typography variant="h6" color="text.secondary">
-                Больницы не найдены
-              </Typography>
-              <Button variant="contained" startIcon={<AddIcon />} onClick={() => navigate("/hospitals/new")}>
-                Создать больницу
-              </Button>
+            <Paper sx={{ p: 6, textAlign: "center" }}>
+              <LocalHospitalIcon sx={{ fontSize: 70, mb: 2 }} />
+              <Typography>Больницы не найдены</Typography>
             </Paper>
           ) : (
             <>
               <Grid container spacing={3}>
                 {paginatedData.map((hospital) => (
-                  <Grid item xs={12} sm={6} md={4} key={hospital.registrationNumber}>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    key={hospital.registrationNumber}
+                  >
                     <Card
                       sx={{
-                        bgcolor: "background.paper",
-                        border: "1px solid rgba(59, 130, 246, 0.2)",
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
-                        transition: "all 0.3s ease",
-                        "&:hover": { borderColor: "primary.main", transform: "translateY(-4px)", boxShadow: "0 8px 24px rgba(59, 130, 246, 0.2)" },
+                        transition: "0.3s",
+                        "&:hover": {
+                          transform: "translateY(-4px)",
+                        },
                       }}
                     >
                       <CardContent sx={{ flexGrow: 1 }}>
-                        <Stack direction="row" alignItems="flex-start" justifyContent="space-between" sx={{ mb: 2 }}>
-                          <LocalHospitalIcon sx={{ color: "primary.main", fontSize: 32 }} />
+                        <Stack
+                          direction="row"
+                          justifyContent="space-between"
+                          sx={{ mb: 2 }}
+                        >
+                          <LocalHospitalIcon color="primary" />
                           <Chip
                             label={hospital.territoryName || "—"}
                             size="small"
-                            sx={{ bgcolor: "rgba(59, 130, 246, 0.2)", color: "primary.main", fontWeight: 600 }}
                           />
                         </Stack>
-                        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: "primary.main" }}>
+
+                        <Typography
+                          variant="h6"
+                          sx={{ fontWeight: 600, mb: 2 }}
+                        >
                           {hospital.name}
                         </Typography>
+
                         <Stack spacing={1}>
-                          <Stack direction="row" alignItems="center" spacing={1}>
-                            <LocationOnIcon sx={{ fontSize: 16, color: "text.secondary" }} />
-                            <Typography variant="body2" color="text.secondary">
+                          <Stack direction="row" spacing={1}>
+                            <LocationOnIcon fontSize="small" />
+                            <Typography variant="body2">
                               {hospital.cityName}, {hospital.districtName}
                             </Typography>
                           </Stack>
-                          <Typography variant="body2" color="text.secondary">
+
+                          <Typography variant="body2">
                             Министерство: {hospital.ministryName}
                           </Typography>
-                          <Typography variant="caption" color="text.secondary">
+
+                          <Typography variant="caption">
                             Рег. №: {hospital.registrationNumber}
                           </Typography>
                         </Stack>
                       </CardContent>
-                      <CardActions sx={{ p: 2, pt: 0 }}>
-                        <Button size="small" startIcon={<VisibilityIcon />} onClick={() => navigate(`/hospitals/${hospital.registrationNumber}`)}>
+
+                      <CardActions
+                        sx={{
+                          p: 2,
+                          pt: 0,
+                          flexDirection: { xs: "column", sm: "row" },
+                          gap: 1,
+                        }}
+                      >
+                        <Button
+                          size="small"
+                          fullWidth={isMobile}
+                          startIcon={<VisibilityIcon />}
+                          onClick={() =>
+                            navigate(
+                              `/hospitals/${hospital.registrationNumber}`
+                            )
+                          }
+                        >
                           Открыть
                         </Button>
-                        <Button size="small" startIcon={<EditIcon />} color="warning" onClick={() => navigate(`/hospitals/edit/${hospital.registrationNumber}`)}>
+
+                        <Button
+                          size="small"
+                          fullWidth={isMobile}
+                          startIcon={<EditIcon />}
+                          color="warning"
+                          onClick={() =>
+                            navigate(
+                              `/hospitals/edit/${hospital.registrationNumber}`
+                            )
+                          }
+                        >
                           Изменить
                         </Button>
-                        <IconButton size="small" color="error" onClick={() => handleDeleteClick(hospital)} sx={{ ml: "auto" }}>
+
+                        <IconButton
+                          color="error"
+                          sx={{
+                            ml: { sm: "auto" },
+                            alignSelf: { xs: "flex-end", sm: "center" },
+                          }}
+                          onClick={() => {
+                            setHospitalToDelete(hospital);
+                            setDeleteDialogOpen(true);
+                          }}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       </CardActions>
@@ -226,24 +292,39 @@ export default function HospitalsList() {
 
               {totalPages > 1 && (
                 <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-                  <Pagination count={totalPages} page={page} onChange={(_, value) => setPage(value)} color="primary" size="large" />
+                  <Pagination
+                    count={totalPages}
+                    page={page}
+                    onChange={(_, value) => setPage(value)}
+                    size={isMobile ? "medium" : "large"}
+                  />
                 </Box>
               )}
             </>
           )}
         </Container>
 
-        {/* Delete Confirmation Dialog */}
-        <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)} PaperProps={{ sx: { bgcolor: "background.paper", borderRadius: 2 } }}>
-          <DialogTitle sx={{ fontWeight: 600 }}>Подтверждение удаления</DialogTitle>
+        <Dialog
+          open={deleteDialogOpen}
+          onClose={() => setDeleteDialogOpen(false)}
+          fullWidth
+          maxWidth="xs"
+        >
+          <DialogTitle>Подтверждение удаления</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Вы уверены, что хотите удалить больницу "{hospitalToDelete?.name}"? Это действие нельзя отменить.
+              Удалить больницу "{hospitalToDelete?.name}"?
             </DialogContentText>
           </DialogContent>
-          <DialogActions sx={{ p: 2 }}>
-            <Button onClick={() => setDeleteDialogOpen(false)}>Отмена</Button>
-            <Button onClick={handleDeleteConfirm} color="error" variant="contained">
+          <DialogActions>
+            <Button onClick={() => setDeleteDialogOpen(false)}>
+              Отмена
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleDeleteConfirm}
+            >
               Удалить
             </Button>
           </DialogActions>

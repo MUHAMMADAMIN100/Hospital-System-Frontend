@@ -1,6 +1,6 @@
 // src/api/hospitals.js
 import axios from "axios";
-const API_URL = "http://localhost:5225/api/HospitalControllers";
+const API_URL = "http://localhost:5000/api/Hospital";
 
 // Получение списка больниц
 export const getHospitals = async (params) => {

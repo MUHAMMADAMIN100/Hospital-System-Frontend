@@ -16,12 +16,12 @@ import {
   Toolbar,
   Alert,
   CircularProgress,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material"
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import SaveIcon from "@mui/icons-material/Save"
-import PeopleIcon from "@mui/icons-material/People"
-import AssessmentIcon from "@mui/icons-material/Assessment"
 import { createHospital } from "../../api/hospitals"
 
 const darkTheme = createTheme({
@@ -42,11 +42,13 @@ const darkTheme = createTheme({
 const territories = ["Firdavsi", "Somoni", "Shohmansur", "Sino"]
 
 export default function HospitalForm() {
-  const navigate = useNavigate() // ✅ вместо useRouter
+  const navigate = useNavigate()
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
-
   const [form, setForm] = useState({
     name: "",
     ministryName: "",
@@ -64,15 +66,11 @@ export default function HospitalForm() {
     e.preventDefault()
     setLoading(true)
     setError(null)
-
     try {
       await createHospital(form)
       setSuccess(true)
-      setTimeout(() => {
-        navigate("/hospitals") // ✅ заменили router.push()
-      }, 1500)
+      setTimeout(() => navigate("/hospitals"), 1500)
     } catch (err) {
-      console.error("Ошибка при создании:", err)
       const message = err.response?.data?.message || "Ошибка при создании больницы"
       setError(message)
     } finally {
@@ -90,21 +88,43 @@ export default function HospitalForm() {
           elevation={0}
           sx={{ bgcolor: "background.paper", borderBottom: "1px solid rgba(255,255,255,0.1)" }}
         >
+          <Toolbar
+            sx={{
+              flexDirection: { xs: "column", sm: "row" },
+              alignItems: { xs: "flex-start", sm: "center" },
+              gap: { xs: 1, sm: 0 },
+            }}
+          >
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 600 }}>
+              Создание больницы
+            </Typography>
+          </Toolbar>
         </AppBar>
 
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          <Button startIcon={<ArrowBackIcon />} onClick={() => navigate("/hospitals")} sx={{ mb: 3 }}>
+        <Container maxWidth="md" sx={{ py: { xs: 2, sm: 4 } }}>
+          <Button
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate("/hospitals")}
+            sx={{ mb: 3, width: { xs: "100%", sm: "auto" } }}
+          >
             Назад к списку
           </Button>
 
-          <Paper sx={{ p: 4, bgcolor: "background.paper", border: "1px solid rgba(59, 130, 246, 0.2)" }}>
-            <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 4 }}>
-              <LocalHospitalIcon sx={{ fontSize: 40, color: "primary.main" }} />
+          <Paper
+            sx={{
+              p: { xs: 2, sm: 4 },
+              bgcolor: "background.paper",
+              border: "1px solid rgba(59, 130, 246, 0.2)",
+            }}
+          >
+            <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 4, flexWrap: "wrap" }}>
+              <LocalHospitalIcon sx={{ fontSize: { xs: 36, sm: 40 }, color: "primary.main" }} />
               <Box>
                 <Typography
                   variant="h4"
                   sx={{
                     fontWeight: 700,
+                    fontSize: { xs: "1.2rem", sm: "1.5rem" },
                     background: "linear-gradient(135deg, #3b82f6 0%, #10b981 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
@@ -123,7 +143,6 @@ export default function HospitalForm() {
                 {error}
               </Alert>
             )}
-
             {success && (
               <Alert severity="success" sx={{ mb: 3, borderRadius: 2 }}>
                 Больница успешно создана! Перенаправление...
@@ -189,12 +208,12 @@ export default function HospitalForm() {
                   placeholder="Введите название города"
                 />
 
-                <Stack direction="row" spacing={2} sx={{ pt: 2 }}>
+                <Stack direction={isMobile ? "column" : "row"} spacing={2} sx={{ pt: 2 }}>
                   <Button
                     type="submit"
                     variant="contained"
                     size="large"
-                    fullWidth
+                    fullWidth={isMobile}
                     disabled={loading}
                     startIcon={loading ? <CircularProgress size={20} /> : <SaveIcon />}
                     sx={{
@@ -206,7 +225,13 @@ export default function HospitalForm() {
                   >
                     {loading ? "Создание..." : "Создать больницу"}
                   </Button>
-                  <Button variant="outlined" size="large" onClick={() => navigate("/hospitals")} disabled={loading}>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    fullWidth={isMobile}
+                    onClick={() => navigate("/hospitals")}
+                    disabled={loading}
+                  >
                     Отмена
                   </Button>
                 </Stack>

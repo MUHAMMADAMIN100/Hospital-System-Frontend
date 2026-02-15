@@ -408,11 +408,11 @@ const printReport = () => {
           в Государственном автономном<br/>
           учреждении здравоохранения<br/>
           «Детская городская клиническая<br/>
-          больница № 8 г. Челябинск»
+          больница № 8 г. Душанбе»
         </div>
 
         <div class="document-codes">
-          <div class="code-line"><span class="code-label">Адрес:</span><span>454047, г. Челябинск, ул. Дружбы, 2</span></div>
+          <div class="code-line"><span class="code-label">Адрес:</span><span>454047, г. Душанбе, ул. Сомони, 2</span></div>
           <div class="code-line"><span class="code-label">ОГРН:</span><span>7450006212</span></div>
           <div class="code-line"><span class="code-label">ИНН:</span><span>746001001</span></div>
           <div class="code-line"><span class="code-label">СНИЛС:</span><span>1027402618178</span></div>
@@ -440,12 +440,12 @@ const printReport = () => {
         <div class="commission-section">
           <div class="commission-title">Члены комиссии:</div>
           <table class="commission-table">
-            <tr><td class="role">Председатель</td><td class="signature">_________</td><td class="name">Петрова О.А.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Лопатин С.А.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Борисова О.М.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Харитонов П.В.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Толкова О.М.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Панкова А.С.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td class="role">Председатель</td><td class="signature">_________</td><td class="name">Фозилова О.А.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Султонов С.А.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Одинаев О.М.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Шарипова П.В.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Расулова О.М.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Оев А.С.</td><td class="date">${formattedDate}</td></tr>
           </table>
         </div>
       </body>
@@ -766,11 +766,11 @@ const printReportSvod = () => {
           в Государственном автономном<br/>
           учреждении здравоохранения<br/>
           «Детская городская клиническая<br/>
-          больница № 8 г. Челябинск»
+          больница № 8 г. Душанбе»
         </div>
 
         <div class="document-codes">
-          <div class="code-line"><span class="code-label">Адрес:</span><span>454047, г. Челябинск, ул. Дружбы, 2</span></div>
+          <div class="code-line"><span class="code-label">Адрес:</span><span>454047, г. Душанбе, ул. Сомони, 2</span></div>
           <div class="code-line"><span class="code-label">ОГРН:</span><span>7450006212</span></div>
           <div class="code-line"><span class="code-label">ИНН:</span><span>746001001</span></div>
           <div class="code-line"><span class="code-label">СНИЛС:</span><span>1027402618178</span></div>
@@ -798,12 +798,12 @@ const printReportSvod = () => {
         <div class="commission-section">
           <div class="commission-title">Члены комиссии:</div>
           <table class="commission-table">
-            <tr><td class="role">Председатель</td><td class="signature">_________</td><td class="name">Петрова О.А.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Лопатин С.А.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Борисова О.М.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Харитонов П.В.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Толкова О.М.</td><td class="date">${formattedDate}</td></tr>
-            <tr><td></td><td class="signature">_________</td><td class="name">Панкова А.С.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td class="role">Председатель</td><td class="signature">_________</td><td class="name">Фозилова О.А.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Султонов С.А.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Одинаев О.М.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Шарипова П.В.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Расулова О.М.</td><td class="date">${formattedDate}</td></tr>
+            <tr><td></td><td class="signature">_________</td><td class="name">Оев А.С.</td><td class="date">${formattedDate}</td></tr>
           </table>
         </div>
       </body>
