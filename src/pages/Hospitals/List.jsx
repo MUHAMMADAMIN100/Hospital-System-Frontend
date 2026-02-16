@@ -117,6 +117,7 @@ export default function HospitalsList() {
           <Box
             sx={{
               mb: 4,
+
               display: "flex",
               flexDirection: { xs: "column", sm: "row" },
               justifyContent: "space-between",
@@ -187,7 +188,8 @@ export default function HospitalsList() {
                     lg={3}
                     key={hospital.registrationNumber}
                   >
-                    <Card
+                    <Card className="card"
+
                       sx={{
                         height: "100%",
                         display: "flex",
@@ -197,6 +199,7 @@ export default function HospitalsList() {
                           transform: "translateY(-4px)",
                         },
                       }}
+                  
                     >
                       <CardContent sx={{ flexGrow: 1 }}>
                         <Stack
@@ -208,6 +211,7 @@ export default function HospitalsList() {
                           <Chip
                             label={hospital.territoryName || "—"}
                             size="small"
+                            className="nameHosp"
                           />
                         </Stack>
 
@@ -275,7 +279,7 @@ export default function HospitalsList() {
                           color="error"
                           sx={{
                             ml: { sm: "auto" },
-                            alignSelf: { xs: "flex-end", sm: "center" },
+                            alignSelf: { xs: "center", sm: "center" },
                           }}
                           onClick={() => {
                             setHospitalToDelete(hospital);
@@ -330,6 +334,6 @@ export default function HospitalsList() {
           </DialogActions>
         </Dialog>
       </Box>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }

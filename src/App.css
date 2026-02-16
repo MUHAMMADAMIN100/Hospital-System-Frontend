@@ -124,3 +124,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media (max-width: 425px){
+  .card{
+    width: 150%;
+    margin-left: 17px;
+  }
+}
+
+@media (max-width: 375px){
+  .card{
+    width: 150%;
+    margin-left: 17px;
+  }
+}
+
+@media (max-width: 320px){
+  .card{
+    width: 130%;
+    margin-left: 17px;
+  }
+}

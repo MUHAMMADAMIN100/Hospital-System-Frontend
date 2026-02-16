@@ -15,8 +15,23 @@ import {
 import { Save as SaveIcon, ArrowBack as ArrowBackIcon, PersonAdd as PersonAddIcon } from "@mui/icons-material";
 import { createPatient } from "../../api/patients";
 
-const territories = ["Firdavsi", "Somoni", "Shohmansur", "Sino"];
-const diseases = ["Flu", "Cold", "Fever", "Hepatitis", "ARVI", "Tuberculosis", "Diabetes", "Others"];
+const territories = [
+  { label: "Firdavsi", value: 0 },
+  { label: "Somoni", value: 1 },
+  { label: "Shohmansur", value: 2 },
+  { label: "Sino", value: 3 },
+];
+const diseases = [
+  { label: "Flu", value: 0 },
+  { label: "Cold", value: 1 },
+  { label: "Fever", value: 2 },
+  { label: "Hepatitis", value: 3 },
+  { label: "ARVI", value: 4 },
+  { label: "Tuberculosis", value: 5 },
+  { label: "Diabetes", value: 6 },
+  { label: "Others", value: 7 },
+];
+
 
 export default function NewPatientPage() {
   const navigate = useNavigate();
@@ -24,13 +39,13 @@ export default function NewPatientPage() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const [form, setForm] = useState({
-    hospitalRegistrationNumber: "",
-    name: "",
-    recordDate: "",
-    territoryName: "Firdavsi",
-    disease: "Flu",
-  });
+const [form, setForm] = useState({
+  hospitalRegistrationNumber: "",
+  name: "",
+  recordDate: "",
+  territoryName: 0, 
+  disease: 0,       
+});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,11 +100,35 @@ export default function NewPatientPage() {
                 <TextField label="Регистрационный номер больницы" value={form.hospitalRegistrationNumber} onChange={(e) => setForm({ ...form, hospitalRegistrationNumber: e.target.value })} required disabled={loading} fullWidth sx={textFieldSx} />
                 <TextField label="Имя пациента" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required disabled={loading} fullWidth sx={textFieldSx} />
                 <TextField label="Дата записи" type="date" value={form.recordDate} onChange={(e) => setForm({ ...form, recordDate: e.target.value })} required disabled={loading} fullWidth InputLabelProps={{ shrink: true }} sx={textFieldSx} />
-                <TextField select label="Территория" value={form.territoryName} onChange={(e) => setForm({ ...form, territoryName: e.target.value })} disabled={loading} fullWidth sx={textFieldSx}>
-                  {territories.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
+                <TextField
+                  select
+                  label="Территория"
+                  value={form.territoryName}
+                  onChange={(e) => setForm({ ...form, territoryName: Number(e.target.value) })}
+                  fullWidth
+                  disabled={loading}
+                  sx={textFieldSx}
+                >
+                  {territories.map((t) => (
+                    <MenuItem key={t.value} value={t.value}>
+                      {t.label}
+                    </MenuItem>
+                  ))}
                 </TextField>
-                <TextField select label="Болезнь" value={form.disease} onChange={(e) => setForm({ ...form, disease: e.target.value })} disabled={loading} fullWidth sx={textFieldSx}>
-                  {diseases.map((d) => <MenuItem key={d} value={d}>{d}</MenuItem>)}
+                <TextField
+                  select
+                  label="Болезнь"
+                  value={form.disease}
+                  onChange={(e) => setForm({ ...form, disease: Number(e.target.value) })}
+                  fullWidth
+                  disabled={loading}
+                  sx={textFieldSx}
+                >
+                  {diseases.map((d) => (
+                    <MenuItem key={d.value} value={d.value}>
+                      {d.label}
+                    </MenuItem>
+                  ))}
                 </TextField>
 
                 {/* Buttons */}

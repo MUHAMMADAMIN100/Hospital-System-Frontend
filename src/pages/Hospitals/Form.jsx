@@ -39,7 +39,12 @@ const darkTheme = createTheme({
   },
 })
 
-const territories = ["Firdavsi", "Somoni", "Shohmansur", "Sino"]
+const territories = [
+  { label: "Firdavsi", value: 0 },
+  { label: "Somoni", value: 1 },
+  { label: "Shohmansur", value: 2 },
+  { label: "Sino", value: 3 },
+]
 
 export default function HospitalForm() {
   const navigate = useNavigate()
@@ -59,9 +64,12 @@ export default function HospitalForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-  }
 
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "territoryName" ? Number(value) : value,
+    }))
+  }
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -182,8 +190,8 @@ export default function HospitalForm() {
                 >
                   <MenuItem value="">Выберите территорию</MenuItem>
                   {territories.map((t) => (
-                    <MenuItem key={t} value={t}>
-                      {t}
+                    <MenuItem key={t.value} value={t.value}>
+                      {t.label}
                     </MenuItem>
                   ))}
                 </TextField>

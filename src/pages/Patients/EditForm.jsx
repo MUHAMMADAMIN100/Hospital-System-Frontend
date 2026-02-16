@@ -15,8 +15,22 @@ import {
 import { Save as SaveIcon, ArrowBack as ArrowBackIcon, Edit as EditIcon } from "@mui/icons-material";
 import { getPatientById, updatePatient } from "../../api/patients";
 
-const territories = ["Firdavsi", "Somoni", "Shohmansur", "Sino"];
-const diseases = ["Flu", "Cold", "Fever", "Hepatitis", "ARVI", "Tuberculosis", "Diabetes", "Others"];
+const territories = [
+  { label: "Firdavsi", value: 0 },
+  { label: "Somoni", value: 1 },
+  { label: "Shohmansur", value: 2 },
+  { label: "Sino", value: 3 },
+];
+const diseases = [
+  { label: "Flu", value: 0 },
+  { label: "Cold", value: 1 },
+  { label: "Fever", value: 2 },
+  { label: "Hepatitis", value: 3 },
+  { label: "ARVI", value: 4 },
+  { label: "Tuberculosis", value: 5 },
+  { label: "Diabetes", value: 6 },
+  { label: "Others", value: 7 },
+];
 
 export default function EditPatientPage() {
   const navigate = useNavigate();
@@ -64,8 +78,12 @@ export default function EditPatientPage() {
   }, [id]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+    const { name, value } = e.target
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "territoryName" || name === "disease" ? Number(value) : value,
+    }))
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -121,7 +139,7 @@ export default function EditPatientPage() {
         <Box sx={{ mb: 4, p: 4, background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", borderRadius: 3, boxShadow: "0 8px 32px rgba(102, 126, 234, 0.3)" }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
             <EditIcon sx={{ fontSize: 40, color: "white" }} />
-            <Typography variant="h3" sx={{ fontWeight: 700, color: "white" }}>
+            <Typography variant="h4" sx={{ fontWeight: 700, color: "white" }}>
               Редактировать пациента
             </Typography>
           </Box>
@@ -140,11 +158,35 @@ export default function EditPatientPage() {
                 <TextField label="Регистрационный номер больницы" name="hospitalRegistrationNumber" value={form.hospitalRegistrationNumber} onChange={handleChange} fullWidth required sx={textFieldSx} />
                 <TextField label="Имя пациента" name="name" value={form.name} onChange={handleChange} fullWidth required sx={textFieldSx} />
                 <TextField label="Дата регистрации" type="date" name="recordDate" value={form.recordDate} onChange={handleChange} fullWidth InputLabelProps={{ shrink: true }} sx={textFieldSx} />
-                <TextField select label="Территория" name="territoryName" value={form.territoryName} onChange={handleChange} fullWidth sx={textFieldSx}>
-                  {territories.map((t) => <MenuItem key={t} value={t}>{t}</MenuItem>)}
+                <TextField
+                  select
+                  label="Территория"
+                  name="territoryName"
+                  value={form.territoryName}
+                  onChange={handleChange}
+                  fullWidth
+                  sx={textFieldSx}
+                >
+                  {territories.map((t) => (
+                    <MenuItem key={t.value} value={t.value}>
+                      {t.label}
+                    </MenuItem>
+                  ))}
                 </TextField>
-                <TextField select label="Болезнь" name="disease" value={form.disease} onChange={handleChange} fullWidth sx={textFieldSx}>
-                  {diseases.map((d) => <MenuItem key={d} value={d}>{d}</MenuItem>)}
+                <TextField
+                  select
+                  label="Болезнь"
+                  name="disease"
+                  value={form.disease}
+                  onChange={handleChange}
+                  fullWidth
+                  sx={textFieldSx}
+                >
+                  {diseases.map((d) => (
+                    <MenuItem key={d.value} value={d.value}>
+                      {d.label}
+                    </MenuItem>
+                  ))}
                 </TextField>
                 <TextField label="Дата выздоровления" type="date" name="recoveryDate" value={form.recoveryDate} onChange={handleChange} fullWidth InputLabelProps={{ shrink: true }} sx={textFieldSx} />
 

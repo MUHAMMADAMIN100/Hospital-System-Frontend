@@ -41,7 +41,12 @@ const darkTheme = createTheme({
   },
 })
 
-const territories = ["Firdavsi", "Somoni", "Shohmansur", "Sino"]
+const territories = [
+  { label: "Firdavsi", value: 0 },
+  { label: "Somoni", value: 1 },
+  { label: "Shohmansur", value: 2 },
+  { label: "Sino", value: 3 },
+]
 
 export default function HospitalEdit() {
   const navigate = useNavigate()
@@ -87,10 +92,13 @@ export default function HospitalEdit() {
     fetchHospital()
   }, [id])
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-  }
+const handleChange = (e) => {
+  const { name, value } = e.target
+  setForm((prev) => ({
+    ...prev,
+    [name]: name === "territoryName" ? Number(value) : value
+  }))
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -184,11 +192,19 @@ export default function HospitalEdit() {
               <Stack spacing={3}>
                 <TextField fullWidth label="Название больницы" name="name" value={form.name} onChange={handleChange} required placeholder="Введите название больницы" />
                 <TextField fullWidth label="Министерство" name="ministryName" value={form.ministryName} onChange={handleChange} required placeholder="Введите название министерства" />
-                <TextField select fullWidth label="Территория" name="territoryName" value={form.territoryName} onChange={handleChange} required>
+                <TextField
+                  select
+                  fullWidth
+                  label="Территория"
+                  name="territoryName"
+                  value={form.territoryName}
+                  onChange={handleChange}
+                  required
+                >
                   <MenuItem value="">Выберите территорию</MenuItem>
                   {territories.map((t) => (
-                    <MenuItem key={t} value={t}>
-                      {t}
+                    <MenuItem key={t.value} value={t.value}>
+                      {t.label}
                     </MenuItem>
                   ))}
                 </TextField>
