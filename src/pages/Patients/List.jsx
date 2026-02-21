@@ -22,6 +22,25 @@ export default function PatientsListPage() {
   const [patientToDelete, setPatientToDelete] = useState(null)
   const [error, setError] = useState(null)
 
+
+  const diseases = [
+    { label: "Flu", value: 0 },
+    { label: "Cold", value: 1 },
+    { label: "Fever", value: 2 },
+    { label: "Hepatitis", value: 3 },
+    { label: "ARVI", value: 4 },
+    { label: "Tuberculosis", value: 5 },
+    { label: "Diabetes", value: 6 },
+    { label: "Others", value: 7 },
+  ];
+
+  const territories = [
+    { label: "Firdavsi", value: 0 },
+    { label: "Somoni", value: 1 },
+    { label: "Shohmansur", value: 2 },
+    { label: "Sino", value: 3 },
+  ];
+
   const pageSize = 5 // сколько элементов на странице
 
   // Загружаем все данные с сервера
@@ -73,6 +92,16 @@ export default function PatientsListPage() {
     return colors[disease] || "default"
   }
 
+  const getDiseaseLabel = (value) => {
+    const disease = diseases.find(d => d.value === value)
+    return disease ? disease.label : "Unknown"
+  }
+
+  const territoriesLabel = (value) => {
+    const territory = territories.find(el => el.value === value)
+    return territory ? territory.label : "unknown"
+  }
+
   // Фронтенд-пагинация
   const totalPages = Math.ceil(patients.length / pageSize)
   const displayedPatients = patients.slice(
@@ -81,7 +110,7 @@ export default function PatientsListPage() {
   )
 
   return (
-    <Box sx={{ minHeight: "100vh", background: "linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%)", py: 4  }}>
+    <Box sx={{ minHeight: "100vh", background: "linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%)", py: 4 }}>
       <Container maxWidth="xl">
         {/* Header */}
         <Box sx={{ mb: 4, p: 4, background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", borderRadius: 3, boxShadow: "0 8px 32px rgba(102, 126, 234, 0.3)" }}>
@@ -134,8 +163,16 @@ export default function PatientsListPage() {
                         <TableCell sx={{ color: "rgba(255,255,255,0.9)" }}>{patient.name}</TableCell>
                         <TableCell sx={{ color: "rgba(255,255,255,0.9)" }}>{patient.hospitalRegistrationNumber}</TableCell>
                         <TableCell sx={{ color: "rgba(255,255,255,0.9)" }}>{new Date(patient.recordDate).toLocaleDateString("ru-RU")}</TableCell>
-                        <TableCell sx={{ color: "rgba(255,255,255,0.9)" }}>{patient.territoryName}</TableCell>
-                        <TableCell><Chip label={patient.disease} color={getDiseaseColor(patient.disease)} size="small" /></TableCell>
+                        <TableCell sx={{ color: "rgba(255,255,255,0.9)" }}>
+                          {territoriesLabel(patient.territoryName)}
+                        </TableCell>
+                        <TableCell>
+                          <Chip
+                            label={getDiseaseLabel(patient.disease)}
+                            color={getDiseaseColor(getDiseaseLabel(patient.disease))}
+                            size="small"
+                          />
+                        </TableCell>
                         <TableCell align="right">
                           <IconButton size="small" onClick={() => navigate(`/patients/${patient.id}`)} sx={{ color: "#4fc3f7" }}><InfoIcon /></IconButton>
                           <IconButton size="small" onClick={() => navigate(`/patients/edit/${patient.id}`)} sx={{ color: "#81c784" }}><EditIcon /></IconButton>

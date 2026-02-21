@@ -31,6 +31,37 @@ export default function PatientInfoPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+
+
+    const diseases = [
+    { label: "Flu", value: 0 },
+    { label: "Cold", value: 1 },
+    { label: "Fever", value: 2 },
+    { label: "Hepatitis", value: 3 },
+    { label: "ARVI", value: 4 },
+    { label: "Tuberculosis", value: 5 },
+    { label: "Diabetes", value: 6 },
+    { label: "Others", value: 7 },
+  ];
+
+  const territories = [
+    { label: "Firdavsi", value: 0 },
+    { label: "Somoni", value: 1 },
+    { label: "Shohmansur", value: 2 },
+    { label: "Sino", value: 3 },
+  ];
+
+
+    const getDiseaseLabel = (value) => {
+    const disease = diseases.find(d => d.value === value)
+    return disease ? disease.label : "Unknown"
+  }
+
+  const territoriesLabel = (value) => {
+    const territory = territories.find(el => el.value === value)
+    return territory ? territory.label : "unknown"
+  }
+
   useEffect(() => {
     const loadPatient = async () => {
       try {
@@ -162,7 +193,7 @@ export default function PatientInfoPage() {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <InfoItem icon={<LocationIcon />} label="Территория" value={patient.territoryName} />
+                <InfoItem icon={<LocationIcon />} label="Территория" value={territoriesLabel(patient.territoryName) } />
               </Grid>
               <Grid item xs={12} md={6}>
                 <InfoItem
@@ -185,7 +216,7 @@ export default function PatientInfoPage() {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <InfoItem icon={<MedicalIcon />} label="Болезнь" value={<Chip label={patient.disease} color="error" />} />
+                <InfoItem icon={<MedicalIcon />} label="Болезнь" value={<Chip label= { getDiseaseLabel(patient.disease)} color="error" />} />
               </Grid>
               <Grid item xs={12} md={6}>
                 <InfoItem

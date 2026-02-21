@@ -109,15 +109,14 @@ export default function HospitalsList() {
         <Container
           maxWidth="xl"
           sx={{
-            py: { xs: 2, sm: 4 },
-            px: { xs: 2, sm: 3 },
+            py: { xs: 0, sm: 0 },
+            px: { xs: 0, sm: 0 },
           }}
         >
           {/* Header */}
           <Box
             sx={{
               mb: 4,
-
               display: "flex",
               flexDirection: { xs: "column", sm: "row" },
               justifyContent: "space-between",
@@ -178,121 +177,139 @@ export default function HospitalsList() {
             </Paper>
           ) : (
             <>
-              <Grid container spacing={3}>
-                {paginatedData.map((hospital) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={3}
-                    key={hospital.registrationNumber}
-                  >
-                    <Card className="card"
-
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        transition: "0.3s",
-                        "&:hover": {
-                          transform: "translateY(-4px)",
-                        },
-                      }}
-                  
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                <Grid
+                  container
+                  spacing={3}
+                  sx={{
+                    maxWidth: "1400px",
+                    width: "100%",
+                    justifyContent: {
+                      xs: "center",   // мобилка — строго по центру
+                      sm: "flex-start", // с планшета — нормальная сетка
+                    },
+                  }}
+                >
+                  {paginatedData.map((hospital) => (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      lg={3}
+                      key={hospital.registrationNumber}
                     >
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Stack
-                          direction="row"
-                          justifyContent="space-between"
-                          sx={{ mb: 2 }}
-                        >
-                          <LocalHospitalIcon color="primary" />
-                          <Chip
-                            label={hospital.territoryName || "—"}
-                            size="small"
-                            className="nameHosp"
-                          />
-                        </Stack>
-
-                        <Typography
-                          variant="h6"
-                          sx={{ fontWeight: 600, mb: 2 }}
-                        >
-                          {hospital.name}
-                        </Typography>
-
-                        <Stack spacing={1}>
-                          <Stack direction="row" spacing={1}>
-                            <LocationOnIcon fontSize="small" />
-                            <Typography variant="body2">
-                              {hospital.cityName}, {hospital.districtName}
-                            </Typography>
-                          </Stack>
-
-                          <Typography variant="body2">
-                            Министерство: {hospital.ministryName}
-                          </Typography>
-
-                          <Typography variant="caption">
-                            Рег. №: {hospital.registrationNumber}
-                          </Typography>
-                        </Stack>
-                      </CardContent>
-
-                      <CardActions
+                      <Card
                         sx={{
-                          p: 2,
-                          pt: 0,
-                          flexDirection: { xs: "column", sm: "row" },
-                          gap: 1,
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          transition: "0.3s",
+                          "&:hover": {
+                            transform: "translateY(-4px)",
+                          },
                         }}
                       >
-                        <Button
-                          size="small"
-                          fullWidth={isMobile}
-                          startIcon={<VisibilityIcon />}
-                          onClick={() =>
-                            navigate(
-                              `/hospitals/${hospital.registrationNumber}`
-                            )
-                          }
-                        >
-                          Открыть
-                        </Button>
+                        <CardContent sx={{ flexGrow: 1 }}>
+                          <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            sx={{ mb: 2 }}
+                          >
+                            <LocalHospitalIcon color="primary" />
+                            <Chip
+                              label={hospital.territoryName || "—"}
+                              size="small"
+                              className="nameHosp"
+                            />
+                          </Stack>
 
-                        <Button
-                          size="small"
-                          fullWidth={isMobile}
-                          startIcon={<EditIcon />}
-                          color="warning"
-                          onClick={() =>
-                            navigate(
-                              `/hospitals/edit/${hospital.registrationNumber}`
-                            )
-                          }
-                        >
-                          Изменить
-                        </Button>
+                          <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 600, mb: 2 }}
+                          >
+                            {hospital.name}
+                          </Typography>
 
-                        <IconButton
-                          color="error"
+                          <Stack spacing={1}>
+                            <Stack direction="row" spacing={1}>
+                              <LocationOnIcon fontSize="small" />
+                              <Typography variant="body2">
+                                {hospital.cityName}, {hospital.districtName}
+                              </Typography>
+                            </Stack>
+
+                            <Typography variant="body2">
+                              Министерство: {hospital.ministryName}
+                            </Typography>
+
+                            <Typography variant="caption">
+                              Рег. №: {hospital.registrationNumber}
+                            </Typography>
+                          </Stack>
+                        </CardContent>
+
+                        <CardActions
                           sx={{
-                            ml: { sm: "auto" },
-                            alignSelf: { xs: "center", sm: "center" },
-                          }}
-                          onClick={() => {
-                            setHospitalToDelete(hospital);
-                            setDeleteDialogOpen(true);
+                            p: 2,
+                            pt: 0,
+                            flexDirection: { xs: "column", sm: "row" },
+                            gap: 1,
                           }}
                         >
-                          <DeleteIcon />
-                        </IconButton>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
+                          <Button
+                            size="small"
+                            fullWidth={isMobile}
+                            startIcon={<VisibilityIcon />}
+                            onClick={() =>
+                              navigate(
+                                `/hospitals/${hospital.registrationNumber}`
+                              )
+                            }
+                          >
+                            Открыть
+                          </Button>
+
+                          <Button
+                            size="small"
+                            fullWidth={isMobile}
+                            startIcon={<EditIcon />}
+                            color="warning"
+                            onClick={() =>
+                              navigate(
+                                `/hospitals/edit/${hospital.registrationNumber}`
+                              )
+                            }
+                          >
+                            Изменить
+                          </Button>
+
+                          <IconButton
+                            color="error"
+                            sx={{
+                              ml: { sm: "auto" },
+                              alignSelf: "center",
+                            }}
+                            onClick={() => {
+                              setHospitalToDelete(hospital);
+                              setDeleteDialogOpen(true);
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
 
               {totalPages > 1 && (
                 <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
