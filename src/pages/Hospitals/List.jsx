@@ -191,8 +191,8 @@ export default function HospitalsList() {
                     maxWidth: "1400px",
                     width: "100%",
                     justifyContent: {
-                      xs: "center",   // мобилка — строго по центру
-                      sm: "flex-start", // с планшета — нормальная сетка
+                      xs: "center",   
+                      sm: "flex-start", 
                     },
                   }}
                 >
